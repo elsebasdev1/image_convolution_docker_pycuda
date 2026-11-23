@@ -1,0 +1,18 @@
+# docker run (sin --gpus all) de convolucion-gpu:1.0
+
+# GET /api/health
+{
+  "estado": "sin_gpu",
+  "gpu": {
+    "disponible": false,
+    "error": "No se pudo importar PyCUDA/libcuda (libcuda.so.1: cannot open shared object file: No such file or directory). En Docker verifique --gpus all y el NVIDIA Container Toolkit; en el anfitrión verifique el controlador NVIDIA."
+  }
+}
+
+# POST /api/v1/convolucion con imagen válida
+{"estado":"error","error":{"codigo":"gpu_no_disponible","mensaje":"GPU no disponible: No se pudo importar PyCUDA/libcuda (libcuda.so.1: cannot open shared object file: No such file or directory). En Docker verifique --gpus all y el NVIDIA Container Toolkit; en el anfitrión verifique el controlador NVIDIA. El servicio NO procesa en CPU."},"id_solicitud":"2fc77eba049c44499f292e8a031d8302"}
+HTTP 503
+
+# POST con archivo inválido (se valida antes de la GPU)
+{"estado":"error","error":{"codigo":"archivo_invalido","mensaje":"El archivo no es una imagen válida."},"id_solicitud":"38a9926f73814b56a5f0a1c0ace65a6a"}
+HTTP 400
