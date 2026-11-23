@@ -1,0 +1,26 @@
+{
+  "etiqueta": "directo_host",
+  "cpu": "AMD Ryzen 9 6900HS with Radeon Graphics",
+  "nucleos_logicos": 16,
+  "ram_gb": 30.6,
+  "gpu": {
+    "nombre": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "memoria_mb": 5825,
+    "compute_capability": "8.6",
+    "cuda_driver_api": 13050,
+    "pycuda_compilado_con": [
+      13,
+      5,
+      0
+    ]
+  },
+  "controlador_nvidia": "620.73.04",
+  "sistema": "Linux-7.3.5-arch1-1-x86_64-with-glibc2.44",
+  "python": "3.12.16",
+  "pycuda": "2026.1",
+  "nvcc": "Cuda compilation tools, release 13.5, V13.5.37",
+  "docker": "Docker version 29.10.0, build fdd4b8e5da",
+  "en_contenedor": false,
+  "commit": "274fc43859dad4807042ca2b13e416375dc2e976",
+  "marca_tiempo_utc": "2026-11-23T18:41:29+00:00"
+}

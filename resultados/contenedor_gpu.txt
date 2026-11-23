@@ -1,0 +1,99 @@
+# docker ps
+CONTAINER ID   IMAGE                 STATUS                        PORTS                                         NAMES
+23f55a776b69   convolucion-gpu:1.0   Up About a minute (healthy)   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp   convolucion-gpu
+
+# imagen
+id=sha256:f1b1de7b54911748e1c1c745a7ee570e7181a2fe86faf1aeed2e9cf8732e54a0
+revision=274fc43859dad4807042ca2b13e416375dc2e976
+base=nvidia/cuda:13.4.3-devel-ubuntu24.04
+
+# nvidia-smi dentro del contenedor
+Mon Nov 23 18:44:21 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 620.73.04              KMD Version: 620.73.04     CUDA UMD Version: 13.5     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 3060 ...    Off |   00000000:01:00.0 Off |                  N/A |
+| N/A   66C    P0             22W /   80W |     152MiB /   6144MiB |      3%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A               1      C   python                                  110MiB |
++-----------------------------------------------------------------------------------------+
+
+# nvcc
+Cuda compilation tools, release 13.4, V13.4.92
+Build cuda_13.4.r13.4/compiler.38855100_0
+
+# python / pycuda
+3.12.3 2026.1
+
+# health
+{
+    "estado": "ok",
+    "gpu": {
+        "disponible": true,
+        "nombre": "NVIDIA GeForce RTX 3060 Laptop GPU",
+        "compute_capability": "8.6",
+        "memoria_total_mb": 5825,
+        "multiprocesadores": 30,
+        "max_hilos_por_bloque": 1024,
+        "ordinal": 0,
+        "cuda_driver_api": "13.5",
+        "cuda_pycuda_compilado_con": "13.4.0",
+        "inicio_ms": 550.2
+    },
+    "cola": {
+        "en_cola": 0,
+        "capacidad": 8,
+        "procesadas": 189,
+        "rechazadas": 0
+    },
+    "limites": {
+        "max_upload_mb": 32,
+        "max_pixeles": 36000000,
+        "max_lado": 8000,
+        "formatos_entrada": [
+            "BMP",
+            "JPEG",
+            "PNG"
+        ],
+        "filtros": [
+            "media",
+            "nitidez",
+            "laplaciano"
+        ],
+        "mascaras_media": [
+            3,
+            9,
+            21
+        ],
+        "hilos_por_bloque": [
+            64,
+            128,
+            256,
+            512,
+            1024
+        ],
+        "hilos_por_defecto": 256,
+        "formatos_salida": [
+            "png",
+            "jpeg",
+            "raw32"
+        ],
+        "ttl_resultados_s": 900
+    },
+    "versiones": {
+        "python": "3.12.3",
+        "sistema": "Linux-7.3.5-arch1-1-x86_64-with-glibc2.39",
+        "pycuda": "2026.1"
+    }
+}
