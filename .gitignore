@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+*.tmp
+
+# No se versionan: imágenes de entrada, documentación/informe/presentación y el enunciado
+datos/
+docs/
+tarea.md
