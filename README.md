@@ -15,7 +15,7 @@ Navegador ──POST──▶ FastAPI/uvicorn ──cola──▶ hilo trabajado
 | Elemento | Valor |
 |---|---|
 | Repositorio práctica 02 | https://github.com/elsebasdev1/image_convolution_processing |
-| Commit de origen práctica 02 | `fb95088` (kernel `convolucionGPU` copiado sin cambios) |
+| Commit de origen práctica 02 | `fb95088d827a9e62ab2ba80d0b6fe78bc625a069` (kernel `convolucionGPU` copiado sin cambios) |
 | Commit práctica 03 | ver `git rev-parse HEAD`; la imagen lo guarda en la etiqueta `org.opencontainers.image.revision` |
 
 ## Estructura
@@ -94,7 +94,9 @@ Servidor: `uvicorn` con un solo proceso (un contexto CUDA), sin `--reload` ni de
 Verificar desde una copia limpia:
 
 ```bash
-git clone <URL-del-repo> /tmp/p3 && cd /tmp/p3 && scripts/construir.sh
+git clone https://github.com/elsebasdev1/image_convolution_docker_pycuda.git /tmp/p3 && cd /tmp/p3
+docker build --build-arg GIT_COMMIT=$(git rev-parse HEAD) -t convolucion-gpu:1.0 .
+scripts/verificar_gpu_contenedor.sh && scripts/probar_sin_gpu.sh
 ```
 
 ## Servicio
@@ -127,7 +129,7 @@ uv run python -m bench.resumir
 
 Protocolo: 1 ejecución en frío (primera tras arrancar), 1 de calentamiento, 10 repeticiones medidas por configuración;
 mediana, desviación, cuartiles y extremos en `resultados/resumen.csv`. Tiempos de GPU con eventos CUDA; servidor y
-cliente con `time.perf_counter()` (monotónico). Datos crudos: `resultados/mediciones.csv` (+ `errores.jsonl`).
+cliente con `time.perf_counter()` (monotónico). Datos crudos: `resultados/mediciones.csv` (cualquier fallo se guardaría también en `resultados/errores.jsonl`; no hubo ninguno). El protocolo completo se repite con `make medir`.
 
 ## Datos de entrada
 
@@ -147,8 +149,10 @@ cd datos/imagenes && sha256sum extra2_*.jpeg
 ## Resultados
 
 `resultados/`: `mediciones.csv` (una fila por ejecución: modo, filtro, resolución, máscara, hilos, repetición, concurrencia, tiempos en ms, estado, entorno),
-`resumen.csv` (mediana, desviación, cuartiles), `concurrencia_rondas.csv`, `arranque.csv`, `validacion.csv`, `entorno_*.json` y `contenedor_gpu.txt`
-(`docker ps`, id de la imagen, `nvidia-smi`, `nvcc` y `/api/health` del contenedor).
+`resumen.csv` (mediana, desviación, cuartiles), `concurrencia_rondas.csv`, `arranque.csv`, `validacion.csv` (incluye las entradas inválidas y sus códigos de error), `entorno_*.json`,
+`contenedor_gpu.txt` (`docker ps`, id de la imagen, `nvidia-smi`, `nvcc` y `/api/health` del contenedor),
+`sin_gpu.txt` (el mismo contenedor sin `--gpus all`: `/api/health` y `503 gpu_no_disponible`) y
+`construccion_imagen.txt` (construcción de la imagen desde cero).
 
 ## API HTTP
 
