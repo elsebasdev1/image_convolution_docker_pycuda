@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Convolución GPU</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="mark" aria-hidden="true"></span>Convolución de imágenes<span class="sub">PyCUDA · Docker</span></div>
+    <div id="gpu" class="status wait" role="status" aria-live="polite"><span class="dot"></span><span id="gpu-texto">Comprobando GPU</span></div>
+  </header>
+
+  <div class="shell">
+    <aside class="side">
+      <form id="form" novalidate>
+        <section>
+          <h2>01 · Imagen</h2>
+          <label class="drop" id="drop" for="archivo">
+            <input type="file" id="archivo" accept="image/jpeg,image/png,image/bmp">
+            <span id="drop-titulo" class="drop-t">Seleccionar imagen</span>
+            <span id="drop-detalle" class="drop-d">o arrastrar aquí · JPEG, PNG, BMP</span>
+          </label>
+        </section>
+
+        <section>
+          <h2>02 · Filtro</h2>
+          <div class="opts col" role="radiogroup" aria-label="Filtro">
+            <label><input type="radio" name="filtro" value="media" checked><span>Media</span><em>k × k</em></label>
+            <label><input type="radio" name="filtro" value="nitidez"><span>Nitidez</span><em>3 × 3</em></label>
+            <label><input type="radio" name="filtro" value="laplaciano"><span>Laplaciano</span><em>3 × 3</em></label>
+          </div>
+        </section>
+
+        <section>
+          <h2>03 · Máscara <span id="nota-mascara" class="nota"></span></h2>
+          <div class="opts row3" id="g-mascara" role="radiogroup" aria-label="Tamaño de máscara">
+            <label><input type="radio" name="mascara" value="3" checked><span>3</span></label>
+            <label><input type="radio" name="mascara" value="9"><span>9</span></label>
+            <label><input type="radio" name="mascara" value="21"><span>21</span></label>
+          </div>
+        </section>
+
+        <section>
+          <h2>04 · Hilos por bloque</h2>
+          <div class="opts row5" role="radiogroup" aria-label="Hilos por bloque">
+            <label><input type="radio" name="hilos" value="64"><span>64</span></label>
+            <label><input type="radio" name="hilos" value="128"><span>128</span></label>
+            <label><input type="radio" name="hilos" value="256" checked><span>256</span></label>
+            <label><input type="radio" name="hilos" value="512"><span>512</span></label>
+            <label><input type="radio" name="hilos" value="1024"><span>1024</span></label>
+          </div>
+        </section>
+
+        <section>
+          <h2>05 · Salida</h2>
+          <div class="opts row2" role="radiogroup" aria-label="Formato de salida">
+            <label><input type="radio" name="formato" value="png" checked><span>PNG</span></label>
+            <label><input type="radio" name="formato" value="jpeg"><span>JPEG</span></label>
+          </div>
+        </section>
+
+        <button type="submit" id="enviar" class="run" disabled>Procesar en GPU</button>
+        <div id="mensaje" class="msg" role="status" aria-live="polite"></div>
+      </form>
+    </aside>
+
+    <main class="main">
+      <div class="views">
+        <figure class="pane">
+          <figcaption><b>Original</b><span id="info-original">—</span></figcaption>
+          <div class="canvas"><img id="img-original" alt="Imagen original" hidden><p id="vacio-original">Sin imagen</p></div>
+        </figure>
+        <figure class="pane">
+          <figcaption><b>Resultado</b><span id="info-resultado">—</span><a id="descargar" class="dl disabled" aria-disabled="true">Descargar</a></figcaption>
+          <div class="canvas"><img id="img-resultado" alt="Imagen procesada" hidden><p id="vacio-resultado">Sin resultado</p></div>
+        </figure>
+      </div>
+
+      <section class="times" aria-label="Tiempos">
+        <div class="times-head"><h2>Tiempos</h2><span>milisegundos</span></div>
+        <div class="times-body">
+          <div class="times-chart">
+            <div id="barra" class="barra" aria-hidden="true"></div>
+            <ul id="leyenda" class="leyenda"></ul>
+            <dl id="ids" class="ids"></dl>
+          </div>
+          <table>
+            <thead><tr><th>Etapa</th><th class="num">ms</th><th>Medido con</th></tr></thead>
+            <tbody id="tabla"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
