@@ -3,6 +3,7 @@
 # Orden: directo en el anfitrión -> directo en contenedor -> servicio en contenedor -> validación.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+export GIT_COMMIT="$(git rev-parse HEAD)"   # etiqueta de la imagen = commit medido
 [ -z "$(git status --porcelain)" ] || { echo "Árbol con cambios: haga commit antes de medir." >&2; exit 1; }
 
 make down >/dev/null 2>&1 || true
