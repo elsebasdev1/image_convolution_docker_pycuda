@@ -1,0 +1,19 @@
+# Servicio con acceso a GPU. Requiere NVIDIA Container Toolkit en el anfitrión.
+services:
+  convolucion:
+    image: convolucion-gpu:1.0
+    build:
+      context: .
+      args:
+        GIT_COMMIT: ${GIT_COMMIT:-desconocido}
+    container_name: convolucion-gpu
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: "no"
